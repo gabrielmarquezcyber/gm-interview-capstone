@@ -109,7 +109,7 @@ The playbooks are written for alert triage and explain:
 - Fields to review.
 - False-positive considerations.
 - Escalation indicators.
-- Suggested analyst response.
+- Analyst response guidance.
 
 Playbooks:
 
@@ -345,4 +345,5 @@ LinkedIn:
 ```text
 https://linkedin.com/in/gabrielmarquezcyber
 ```
+
 
