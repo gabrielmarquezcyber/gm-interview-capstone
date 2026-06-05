@@ -34,7 +34,7 @@ RATE_DELAY = 12             # seconds between paged calls if no API key
 NVD_API_KEY = os.getenv("NVD_API_KEY", "").strip()  # loaded from .env
 
 # Resolve repo root relative to this file:
-#   .../gm-interview-capstone/artifacts/scripts/cve_prioritizer.py
+#   .../elastic-siem-detection-vuln-prioritization/artifacts/scripts/cve_prioritizer.py
 # parents[0] = scripts/, parents[1] = artifacts/, parents[2] = repo root
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -88,7 +88,7 @@ def safe_get_json(
                 sleep_s = random.randint(min_sleep, max_sleep)
                 print(
                     f"[NVD] HTTP {r.status_code} "
-                    f"(attempt {attempt}/{max_retries}) — retrying in {sleep_s}s"
+                    f"(attempt {attempt}/{max_retries}) - retrying in {sleep_s}s"
                 )
                 time.sleep(sleep_s)
                 continue
@@ -100,7 +100,7 @@ def safe_get_json(
             sleep_s = random.randint(min_sleep, max_sleep)
             print(
                 f"[NVD] Request exception {e} "
-                f"(attempt {attempt}/{max_retries}) — retrying in {sleep_s}s"
+                f"(attempt {attempt}/{max_retries}) - retrying in {sleep_s}s"
             )
             time.sleep(sleep_s)
 
@@ -142,10 +142,10 @@ start_date = (datetime.utcnow() - timedelta(days=LOOKBACK_DAYS)).strftime(
     "%Y-%m-%dT%H:%M:%S.000"
 )
 headers = {
-    "User-Agent": "gm-capstone/1.0",
+    "User-Agent": "gabrielmarquezcyber-cve-prioritizer/1.0",
     "apiKey": NVD_API_KEY,
 } if NVD_API_KEY else {
-    "User-Agent": "gm-capstone/1.0",
+    "User-Agent": "gabrielmarquezcyber-cve-prioritizer/1.0",
 }
 
 rows = []
@@ -201,7 +201,7 @@ while True:
 
 nvd_df = pd.DataFrame(rows)
 if nvd_df.empty:
-    print("[NVD] No rows returned — using a minimal fallback row to keep the demo flowing.")
+    print("[NVD] No rows returned - using a minimal fallback row to keep the workflow usable.")
     nvd_df = pd.DataFrame([{"CVE": "CVE-0000-0000", "CVSS": 0.0}])
 print(f"    NVD entries processed: {len(nvd_df)}")
 
@@ -239,7 +239,7 @@ colors = [
 bars = ax.barh(chart_data_sorted["CVE"], chart_data_sorted["Priority"], color=colors)
 ax.set_xlabel("Priority Score", fontsize=12)
 ax.set_title(
-    f"CVE Priority: Top KEV vs Non-KEV — Last {LOOKBACK_DAYS}d",
+    f"CVE Priority: Top KEV vs Non-KEV - Last {LOOKBACK_DAYS}d",
     fontsize=14,
 )
 

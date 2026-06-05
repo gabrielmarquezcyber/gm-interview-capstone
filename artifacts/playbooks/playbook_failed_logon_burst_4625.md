@@ -1,7 +1,7 @@
-﻿# Playbook: Failed Logon Burst (4625)
+# Playbook: Failed Logon Burst (4625)
 **Date:** 2025-11-11  
 **Owner:** Gabriel Marquez  
-**MITRE ATT&CK:** T1110 (Brute Force) â€” Tactic: Credential Access
+**MITRE ATT&CK:** T1110 (Brute Force) - Tactic: Credential Access
 
 ## Purpose
 Detect bursts of failed Windows logons indicative of password guessing or brute-force activity. Validated with Windows Security event ingestion via the *System* integration.
@@ -11,16 +11,16 @@ Detect bursts of failed Windows logons indicative of password guessing or brute-
 - Data stream: `system.security`
 - Index pattern used in searches: `logs-*` (backed by `data_stream.dataset: "system.security"`)
 
-## Detection (KQL â€” base filter for threshold rule)
+## Detection (KQL - base filter for threshold rule)
 ```kql
 data_stream.dataset: "system.security" and winlog.event_id: 4625
 ```
-> Apply a **threshold** in the rule definition (e.g., count â‰¥ 10 within 10 minutes per `host.name` or `user.name`).
+> Apply a **threshold** in the rule definition (e.g., count >= 10 within 10 minutes per `host.name` or `user.name`).
 
 ## Rule Configuration (Elastic)
 - **Type:** Threshold (on KQL query above)
 - **Group by:** `host.name` (or `user.name`)
-- **Threshold:** â‰¥ 10 events in 10 minutes (tunable)
+- **Threshold:** >= 10 events in 10 minutes (tunable)
 - **Index patterns:** `logs-*`
 - **Schedule:** Every 5 minutes
 - **Additional look-back:** 1 minute
@@ -38,11 +38,11 @@ data_stream.dataset: "system.security" and winlog.event_id: 4625
 4. Confirmed events appearing with the above KQL; tuned threshold if needed.
 
 ## Evidence (Artifacts)
-- `19_integration_system_security_added.png` â€” System (Security) integration added
-- `20_discover_system_security_4625.png` â€” 4625 events visible in Discover
-- `21_4625_event_json_sample.png` â€” Representative JSON for 4625
-- (If alerting rule enabled) `22_4625_threshold_alerts.png` â€” Alerts list showing burst
-- (If alerting rule enabled) `23_4625_alert_details.png` â€” Alert details (counts, entity keys)
+- `19_integration_system_security_added.png` - System (Security) integration added
+- `20_discover_system_security_4625.png` - 4625 events visible in Discover
+- `21_4625_event_json_sample.png` - Representative JSON for 4625
+- (If alerting rule enabled) `22_4625_threshold_alerts.png` - Alerts list showing burst
+- (If alerting rule enabled) `23_4625_alert_details.png` - Alert details (counts, entity keys)
 
 ## Response
 - Identify source (e.g., IP, host), targeted account, and timing.
@@ -52,4 +52,3 @@ data_stream.dataset: "system.security" and winlog.event_id: 4625
 ## Reporting
 - Summarize volume, accounts impacted, and window of activity.
 - Map to **MITRE T1110** for detection documentation and analyst reference.
-
